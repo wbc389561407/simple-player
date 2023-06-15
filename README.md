@@ -3,7 +3,17 @@
 #### 介绍
 一个简单的播放器，我起了个名字叫做《sp播放器》，是simple-player的意思
 
-使用说明：
+# 关联项目
+### 加密项目
+### https://github.com/wbc389561407/e-file-tool.git
+
+### 解密项目
+### https://github.com/wbc389561407/d-file-tool.git
+
+### 简单播放器
+### https://github.com/wbc389561407/simple-player.git
+
+# 使用说明：
 ### 一、配置idea
 File | Settings | Editor | GUI Designer
 中 如下图配置
