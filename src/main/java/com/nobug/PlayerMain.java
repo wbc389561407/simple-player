@@ -33,10 +33,7 @@ public class PlayerMain {
 
     public static void main(String[] args) {
 
-
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(),GlobalConfig.LIB_PATH); // 导入的路径是vlc的安装路径
-//        Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
-//         System.out.println(LibVlc.INSTANCE.libvlc_get_version());
 
         // 创建主程序界面运行窗体
         EventQueue.invokeLater(new Runnable() {

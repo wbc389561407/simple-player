@@ -6,11 +6,8 @@ package com.nobug.component;
  * @since 2022-11-28
  */
 
-import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSON;
 import com.nobug.PlayerMain;
 import com.nobug.config.GlobalConfig;
-import com.nobug.util.LocalMac;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.DefaultAdaptiveRuntimeFullScreenStrategy;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
@@ -23,8 +20,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 窗口

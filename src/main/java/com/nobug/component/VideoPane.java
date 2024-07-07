@@ -61,11 +61,12 @@ public class VideoPane extends JPanel {
                                             }
                                             new Thread(() ->{
                                                 Window.lock();
+                                                //解密
                                                 String absolute = decryptTY(absolutePath);
+                                                //播放解密后的文件
                                                 PlayerMain.frame.getMediaPlayer().playMedia(absolute);
                                                 Window.unLock();
                                             }).start();
-
 
                                         }else {
                                             PlayerMain.frame.getMediaPlayer().playMedia(absolutePath);
