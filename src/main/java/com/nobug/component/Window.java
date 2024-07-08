@@ -36,7 +36,7 @@ public class Window extends JFrame{
     private JButton btnStop,btnPlay,btnPause;   //控制按钮，停止、播放、暂停
     public static JSlider slider;     //声音控制块
 
-    private static JPanel videoPane;
+    public static JPanel videoPane;
 
     public WMenuBar getwMenuBar() {
         return wMenuBar;
@@ -159,7 +159,7 @@ public class Window extends JFrame{
 
         //添加声音控制块
         slider = new JSlider();
-        slider.setValue(50);
+        slider.setValue(0);
         slider.setMaximum(100);
         slider.addChangeListener(new ChangeListener() {
 

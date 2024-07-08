@@ -15,8 +15,10 @@ public class WSwingWorker extends SwingWorker<String, Integer> {
 
     @Override
     protected String doInBackground() throws Exception {
+
+        EmbeddedMediaPlayer mediaPlayer = PlayerMain.frame.getMediaPlayer();
+
         while (PlayerMain.flag) {
-            EmbeddedMediaPlayer mediaPlayer = PlayerMain.frame.getMediaPlayer();
             //获取视频总长度
             long total = mediaPlayer.getLength();
             //当前长度
