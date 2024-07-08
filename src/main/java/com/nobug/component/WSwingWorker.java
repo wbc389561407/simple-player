@@ -20,7 +20,6 @@ public class WSwingWorker extends SwingWorker<String, Integer> {
         EmbeddedMediaPlayer mediaPlayer = PlayerMain.frame.getMediaPlayer();
 
         while (PlayerMain.flag) {
-            System.out.println(1);
             //获取视频总长度
             long total = mediaPlayer.getLength();
             //当前长度

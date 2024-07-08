@@ -13,6 +13,35 @@ import java.util.List;
  */
 public class FileIOUtil {
 
+    public static void main(String[] args) {
+        copyFile("C:\\Users\\Administrator\\Downloads\\1669259371520.mp4","C:\\Users\\Administrator\\Desktop\\1");
+    }
+
+    //指定文件路径和复制目标文件夹路径，复制文件到目标文件夹
+    public static void copyFile(String sourceFilePath, String targetFilePath) {
+        try {
+            File sourceFile = new File(sourceFilePath);
+            File targetFile = new File(targetFilePath);
+            if (!targetFile.exists()) {
+                targetFile.mkdirs();
+            }
+            System.out.println(sourceFile.isFile());
+            if (sourceFile.isFile()) {
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(sourceFile));
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(targetFilePath+"/"+sourceFile.getName()+".mp4")));
+                byte[] b = new byte[1024 * 5];
+                int len;
+                while ((len = bis.read(b)) != -1) {
+                    bos.write(b, 0, len);
+                }
+                bis.close();
+                bos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 写出文件

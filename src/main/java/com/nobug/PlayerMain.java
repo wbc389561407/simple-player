@@ -103,6 +103,7 @@ public class PlayerMain {
             wSwingWorker.execute();
         }
         frame.getMediaPlayer().play();
+        frame.getMediaPlayer().setVolume(Window.getSlider().getValue());
         Window.getPlayerComponent().setVisible(true);
     }
 

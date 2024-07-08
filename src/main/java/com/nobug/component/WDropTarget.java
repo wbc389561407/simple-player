@@ -3,6 +3,7 @@ package com.nobug.component;
 import com.nobug.PlayerMain;
 import com.nobug.config.GlobalConfig;
 import com.nobug.util.AESFile;
+import com.nobug.util.FileIOUtil;
 import com.nobug.util.HashUtil;
 
 import javax.swing.*;
@@ -20,6 +21,10 @@ import java.io.File;
 public class WDropTarget{
 
     public static boolean tsMode = false;
+
+    //拖入文件 解密后的路径
+    public static String dropFilePath = "";
+    public static String fileName = "";
 
     public static void listen(JPanel videoPane) {
         new DropTarget(videoPane, DnDConstants.ACTION_COPY_OR_MOVE,
@@ -52,12 +57,11 @@ public class WDropTarget{
                                                 file1.mkdirs();
                                             }
                                             new Thread(() ->{
-                                                Window.lock();
                                                 //解密
-                                                String absolute = decryptTY(absolutePath);
+                                                dropFilePath = decryptTY(absolutePath);
                                                 //播放解密后的文件
-                                                PlayerMain.frame.getMediaPlayer().playMedia(absolute);
-                                                Window.unLock();
+                                                PlayerMain.frame.getMediaPlayer().playMedia(dropFilePath);
+                                                PlayerMain.play();
                                             }).start();
 
                                         }else {
@@ -83,13 +87,17 @@ public class WDropTarget{
                         File file1 = new File(GlobalConfig.TEMP);
                         String absolutePath1 = file1.getAbsolutePath()+"/"+ HashUtil.md5(absolutePath);
                         if(!new File(absolutePath1).exists()){
-                            AESFile.decryptTY(absolutePath, WMenuBar.jLabel, absolutePath1);
-//                            AESFile.decrypt(absolutePath, WMenuBar.jLabel, absolutePath1);
+                            fileName = AESFile.decryptTY(absolutePath, WMenuBar.jLabel, absolutePath1);
+                            System.out.println(fileName);
                         }
                         WMenuBar.end();
                         return absolutePath1;
                     }
 
                 });
+    }
+
+    public static void save(String newPath) {
+        FileIOUtil.copyFile(dropFilePath, newPath+"/"+fileName);
     }
 }

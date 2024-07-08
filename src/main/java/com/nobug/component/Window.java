@@ -108,7 +108,6 @@ public class Window extends JFrame{
         canvas.addKeyListener(new KeyPressedListener());
 
 
-
         //底部面板
         panel=new JPanel();     //实例化控制区域容器
         videoPane.add(panel,BorderLayout.SOUTH);

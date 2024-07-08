@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +31,8 @@ public class WMenuBar extends JMenuBar {
 
     private JMenuItem startFile;// 调试模式
     private JMenuItem activate; //激活按钮
+    //解密按钮
+    private JMenuItem deactivate;
 
     int aboutIndex = 0;
 
@@ -59,6 +62,8 @@ public class WMenuBar extends JMenuBar {
         JMenuItem aboutFile =new JMenuItem("关于我们");
         helpFile.add(aboutFile);
         startFile =new JMenuItem("关闭调试模式");
+        //解密文件
+        deactivate = new JMenuItem("解密文件");
 //        helpFile.add(startFile);
 
         jLabel = new JLabel();
@@ -151,6 +156,20 @@ public class WMenuBar extends JMenuBar {
 
             }
         });
+        //解密文件
+        deactivate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //选择文件夹
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int v = chooser.showOpenDialog(null);
+                if (v == JFileChooser.APPROVE_OPTION) {
+                    File file = chooser.getSelectedFile();
+                    WDropTarget.save(file.getPath());
+                }
+            }
+        });
         full.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,6 +187,7 @@ public class WMenuBar extends JMenuBar {
         PlayerMain.frame.setIconImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.NOT_SIMPLE_ICON_IMAGE));
         Window.setImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.LOGIN));
         helpFile.add(startFile);
+//        helpFile.add(deactivate);//解密 一般不用
         bjFile.remove(activate);
     }
 
