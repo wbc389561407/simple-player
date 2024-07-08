@@ -17,7 +17,7 @@ public class AESFile {
 
 
 
-    private static String[] passwordList = {"","123456","10086","666"};
+    private static String[] passwordList = {"","666","123456","10086"};
 //    private static String[] passwordList = {""};
 
 //    /**
@@ -94,10 +94,21 @@ public class AESFile {
                         System.out.println("密码：【"+s+"】失败！");
                     }
                 }
+//                if(password == null){
+//                    String pass = JOptionPane.showInputDialog("请输入密码：");
+//                    try {
+//                        decrypt = AESUtil.decrypt(bytes, getPassword(pass));
+//                        if(decrypt != null){
+//                            password = getPassword(pass);
+//                        }
+//                    } catch (Exception e) {
+//                        System.out.println("密码：【"+pass+"】失败！");
+//                    }
+//                }
                 //如果都循环结束都没有设置好密码 说明无法解密直接报错
                 if(password == null){
                     System.out.println("无法播放");
-                    throw new RuntimeException("无法播放");
+                    return null;
                 }
             }else {
                 try {
@@ -201,10 +212,94 @@ public class AESFile {
         return outPath;
     }
 
+    /**
+     * 根据 mode 对于输出文件的改变
+     *@param path
+     * @param password
+     * @return
+     */
+    public static String encrypt(String path, String password, String mode, JLabel show) {
+        password = getPassword(password);
+        System.out.println("开始读取文件......");
+        List<FileEncUtilBean> fileEncUtilBeans = FileIOUtil.fileByteReader(path, 1024 * 10);
+        show.setText("读取成功......,开始加密文件......");
+
+        // 添加一些数据到头部
+        File file = Paths.get(path).toFile();
+        StringBuilder sb = new StringBuilder();
+        String fileName = file.getName();
+        sb.append(fileName);
+        sb.append(",");
+        sb.append(mode);
+        byte[] headByte = stringToBytes(sb.toString(),1024*10);
+        FileEncUtilBean bean = new FileEncUtilBean(headByte, headByte.length);
+        fileEncUtilBeans.add(0,bean);
+        // 添加一些数据到头部
+
+
+        long l = System.currentTimeMillis();
+
+        for (FileEncUtilBean fileEncUtilBean : fileEncUtilBeans) {
+            byte[] bytes = fileEncUtilBean.getBytes();
+            byte[] encrypt = new byte[0];
+            try {
+                encrypt = AESUtil.encrypt(bytes, password);
+            } catch (Exception e) {
+                show.setText("加密失败！");
+                throw new RuntimeException("加密失败！");
+            }
+            fileEncUtilBean.setBytes(encrypt);
+            fileEncUtilBean.setLen(encrypt.length);
+        }
+        show.setText("加密完成用时："+(System.currentTimeMillis() - l)+"毫秒，开始写出文件...");
+
+        String outPath = path;
+
+        //输出文件改为 MD5
+        if("R2M".equals(mode)){
+            outPath = FileUtil.getDecryptNameMD5(path);
+        }
+        //输出文件改为 时间戳
+        if("R2T".equals(mode)){
+            outPath = FileUtil.getDecryptNameTime(path);
+        }
+
+        if("RT2TM".equals(mode)){
+            outPath = FileUtil.getDecryptNameTime(path)+".mp4";
+        }
+
+        if("RT2MM".equals(mode)){
+            outPath = FileUtil.getDecryptNameMD5(path)+".mp4";
+        }
+
+        if("V2Z".equals(mode)){
+            outPath = FileUtil.replaceType(path, "zybfq");
+        }
+
+
+        outPath = FileUtil.reFileNamePath(outPath);
+        FileIOUtil.fileByteWriter(fileEncUtilBeans,outPath);
+        show.setText("写出成功！");
+
+        return outPath;
+    }
+
 
     private static String getPassword(String password) {
         return HashUtil.md5(password);
     }
 
 
+    private static byte[] stringToBytes(String fileName, int len) {
+        byte[] bytes = fileName.getBytes(StandardCharsets.UTF_8);
+        byte[] headByte = new byte[len];
+        for (int i = 0; i < bytes.length; i++) {
+            headByte[i] = bytes[i];
+        }
+        return headByte;
+    }
+
+    public static void setPassword(String number) {
+        passwordList[0] = number;
+    }
 }

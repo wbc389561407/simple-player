@@ -22,6 +22,8 @@ public class WDropTarget{
 
     public static boolean tsMode = false;
 
+    //拖入的文件路径
+    public static String absolutePath = "";
     //拖入文件 解密后的路径
     public static String dropFilePath = "";
     public static String fileName = "";
@@ -45,7 +47,7 @@ public class WDropTarget{
                                         //文件夹
                                         break;
                                     }else {
-                                        String absolutePath = file.getAbsolutePath();
+                                        absolutePath = file.getAbsolutePath();
                                         if(tsMode){
                                             //转换
                                             System.out.println("转换:"+absolutePath);
@@ -88,6 +90,11 @@ public class WDropTarget{
                         String absolutePath1 = file1.getAbsolutePath()+"/"+ HashUtil.md5(absolutePath);
                         if(!new File(absolutePath1).exists()){
                             fileName = AESFile.decryptTY(absolutePath, WMenuBar.jLabel, absolutePath1);
+                            if(fileName == null){
+                                String pass = JOptionPane.showInputDialog("请输入密码：");
+                                AESFile.setPassword(pass);
+                                fileName = AESFile.decryptTY(absolutePath, WMenuBar.jLabel, absolutePath1);
+                            }
                             System.out.println(fileName);
                         }
                         WMenuBar.end();
@@ -99,5 +106,10 @@ public class WDropTarget{
 
     public static void save(String newPath) {
         FileIOUtil.copyFile(dropFilePath, newPath+"/"+fileName);
+    }
+
+    //加密
+    public static void encrypt(String password) {
+        AESFile.encrypt(absolutePath, password,"RT2MM",WMenuBar.jLabel);
     }
 }

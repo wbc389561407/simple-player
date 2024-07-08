@@ -9,6 +9,7 @@ import com.nobug.config.PropertiesUtil;
 import com.nobug.util.LocalMac;
 
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class WMenuBar extends JMenuBar {
     private JMenu mnFile;  //文件菜单
     private JMenu bjFile;  //操作
     private JMenu helpFile;  //帮助
+    private JMenuItem encryptionFile;  //加密
     public static JLabel jLabel;
 
     private JMenuItem startFile;// 调试模式
@@ -64,7 +66,10 @@ public class WMenuBar extends JMenuBar {
         startFile =new JMenuItem("关闭调试模式");
         //解密文件
         deactivate = new JMenuItem("解密文件");
+        encryptionFile = new JMenuItem("加密");
+        helpFile.add(encryptionFile);
 //        helpFile.add(startFile);
+
 
         jLabel = new JLabel();
         add(jLabel);
@@ -170,6 +175,37 @@ public class WMenuBar extends JMenuBar {
                 }
             }
         });
+
+        //加密文件
+        encryptionFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //选择导出的目录
+//                JFileChooser chooser = new JFileChooser();
+//                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//                int v = chooser.showOpenDialog(null);
+//                if (v == JFileChooser.APPROVE_OPTION) {
+//                    File file = chooser.getSelectedFile();
+//                    //得到目录地址
+//                    System.out.println("加密文件输入密码");
+//                    String password = JOptionPane.showInputDialog("请输入密码（可以为空）：");
+//                    System.out.println(password);
+//                    if(password != null){
+//                        password = "";
+//                    }
+//                    WDropTarget.encrypt(file,password);
+//                }
+
+                String password = JOptionPane.showInputDialog("请输入密码（可以为空）：");
+                if(password == null){
+                    password = "";
+                }
+                WDropTarget.encrypt(password);
+
+            }
+        });
+
         full.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
