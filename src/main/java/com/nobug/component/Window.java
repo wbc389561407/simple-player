@@ -27,16 +27,26 @@ import java.text.SimpleDateFormat;
 public class Window extends JFrame{
 
     private static JPanel contentPane; //顶层容器，整个播放页面的容器
-    JPanel panel;   //控制区域容器
-    private JProgressBar progress;  //进度条
-    private JLabel jLabelL; //左边时间
-    private JLabel jLabelR;//右边时间
-    private JPanel progressPanel;   //进度条容器
-    private JPanel controlPanel;    //控制按钮容器
-    private JButton btnStop,btnPlay,btnPause;   //控制按钮，停止、播放、暂停
-    public static JSlider slider;     //声音控制块
+    private static JPanel panel;   //控制区域容器
+    private static JProgressBar progress;  //进度条
+    private static JLabel jLabelL; //左边时间
+    private static JLabel jLabelR;//右边时间
+    private static JPanel progressPanel;   //进度条容器
+    private static JPanel controlPanel;    //控制按钮容器
+    private static JButton btnStop,btnPlay,btnPause;   //控制按钮，停止、播放、暂停
 
-    public static JPanel videoPane;
+    public static JSlider getSlider() {
+        return slider;
+    }
+
+    private static JSlider slider;     //声音控制块
+
+    public static VideoPane videoPane;
+
+    public static void setImage(Image image) {
+        videoPane.setImage(image);
+    }
+
 
     public WMenuBar getwMenuBar() {
         return wMenuBar;
@@ -45,7 +55,11 @@ public class Window extends JFrame{
     WMenuBar wMenuBar;
 
 
-    static EmbeddedMediaPlayerComponent playerComponent;   //媒体播放器组件
+    public static EmbeddedMediaPlayerComponent getPlayerComponent() {
+        return playerComponent;
+    }
+
+    private static EmbeddedMediaPlayerComponent playerComponent = new EmbeddedMediaPlayerComponent();   //媒体播放器组件
 
 
     //MainWindow构造方法，创建视屏播放的主界面
@@ -76,15 +90,18 @@ public class Window extends JFrame{
         setJMenuBar(wMenuBar);
 
         //主体
-        videoPane = new VideoPane();
+        videoPane = new VideoPane(Toolkit.getDefaultToolkit().createImage(GlobalConfig.BACKGROUND_IMAGE));
+        //添加监听
+        WDropTarget.listen(videoPane);
+
 
 
         contentPane.add(videoPane, BorderLayout.CENTER);
         videoPane.setLayout(new BorderLayout(0,0));
 
-        playerComponent = new EmbeddedMediaPlayerComponent();
         playerComponent.getMediaPlayer().setFullScreenStrategy(new DefaultAdaptiveRuntimeFullScreenStrategy(this));
         playerComponent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        playerComponent.setVisible(false);
         videoPane.add(playerComponent);
         Canvas canvas = playerComponent.getVideoSurface();
         canvas.addMouseListener(new VideoClickListener());
@@ -204,7 +221,6 @@ public class Window extends JFrame{
     public static void unLock() {
 //        System.out.println("加载结束");
         playerComponent.setVisible(true);
-
     }
 
     //获取播放媒体

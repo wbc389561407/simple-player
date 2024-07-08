@@ -1,6 +1,7 @@
 package com.nobug.component;
 
 import com.nobug.PlayerMain;
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 import javax.swing.*;
@@ -8,11 +9,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
+ * 监听键盘事件
  * @author 389561407@qq.com
  * @version 1.0
  * @since 2022-11-29
  */
 public class KeyPressedListener extends KeyAdapter {
+
+
+    private static EmbeddedMediaPlayerComponent playerComponent;
+
+    public KeyPressedListener() {
+        playerComponent = Window.getPlayerComponent();
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -26,11 +35,7 @@ public class KeyPressedListener extends KeyAdapter {
         }
         //上
         if(38 == keyCode){
-            JSlider jSlider = Window.slider;
-            int value = jSlider.getValue();
-            value += 5;
-            jSlider.setValue(value);
-            PlayerMain.setVol(value);
+            setVol(5);
         }
         //右边
         if(39 == keyCode){
@@ -39,25 +44,27 @@ public class KeyPressedListener extends KeyAdapter {
         }
         //下
         if(40 == keyCode){
-            JSlider jSlider = Window.slider;
-            int value = jSlider.getValue();
-            value -= 5;
-            jSlider.setValue(value);
-            PlayerMain.setVol(value);
+            setVol(-5);
         }
+    }
+
+    private static void setVol(int num) {
+        int value = Window.getSlider().getValue();
+        value += num;
+        Window.getSlider().setValue(value);
+        playerComponent.getMediaPlayer().setVolume(value);
     }
 
     private synchronized void setProgress(int i) {
         i *=1000;
-        EmbeddedMediaPlayer mediaPlayer = PlayerMain.frame.getMediaPlayer();
-        long time = mediaPlayer.getTime();
+        long time = playerComponent.getMediaPlayer().getTime();
         time += i;
         if(time<0){
             time = 0;
         }
-        long length = mediaPlayer.getLength();
+        long length = playerComponent.getMediaPlayer().getLength();
 
-        mediaPlayer.setTime(time);
+        playerComponent.getMediaPlayer().setTime(time);
         JProgressBar progressBar = PlayerMain.frame.getProgressBar();
         if(length == -1){
             progressBar.setValue(0);

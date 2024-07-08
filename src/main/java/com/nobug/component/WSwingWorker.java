@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.util.List;
 
 /**
+ * 显示进度条的SwingWorker
  * @author 389561407@qq.com
  * @version 1.0
  * @since 2022-11-28
@@ -19,6 +20,7 @@ public class WSwingWorker extends SwingWorker<String, Integer> {
         EmbeddedMediaPlayer mediaPlayer = PlayerMain.frame.getMediaPlayer();
 
         while (PlayerMain.flag) {
+            System.out.println(1);
             //获取视频总长度
             long total = mediaPlayer.getLength();
             //当前长度

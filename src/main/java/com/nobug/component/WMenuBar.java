@@ -118,12 +118,13 @@ public class WMenuBar extends JMenuBar {
         aboutFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(VideoPane.tsMode){
+                if(WDropTarget.tsMode){
                     JOptionPane.showMessageDialog(null,"这个播放器不简单！\n版本号："+ GlobalConfig.VERSION);
                 }else {
                     if(aboutIndex++ == 4){
                         //切换为不简单的模式
                         useNotSimpleTitle();
+
                     }
                     JOptionPane.showMessageDialog(null,"版本号："+ GlobalConfig.VERSION);
                 }
@@ -133,16 +134,18 @@ public class WMenuBar extends JMenuBar {
         startFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(VideoPane.tsMode){
-                    VideoPane.tsMode = false;
+                if(WDropTarget.tsMode){
+                    WDropTarget.tsMode = false;
                     PlayerMain.frame.setTitle(GlobalConfig.SIMPLE_TITLE);
                     PlayerMain.frame.setIconImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.SIMPLE_ICON_IMAGE));
                     aboutIndex = 0;
+                    Window.setImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.BACKGROUND_IMAGE));
                     startFile.setText("开启调试模式");
                 }else {
-                    VideoPane.tsMode = true;
+                    WDropTarget.tsMode = true;
                     PlayerMain.frame.setTitle(GlobalConfig.NOT_SIMPLE_TITLE);
                     PlayerMain.frame.setIconImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.NOT_SIMPLE_ICON_IMAGE));
+                    Window.setImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.LOGIN));
                     startFile.setText("关闭调试模式");
                 }
 
@@ -160,9 +163,10 @@ public class WMenuBar extends JMenuBar {
 
     //切换为不简单的模式
     public void useNotSimpleTitle() {
-        VideoPane.tsMode = true;
+        WDropTarget.tsMode = true;
         PlayerMain.frame.setTitle(GlobalConfig.NOT_SIMPLE_TITLE);
         PlayerMain.frame.setIconImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.NOT_SIMPLE_ICON_IMAGE));
+        Window.setImage(Toolkit.getDefaultToolkit().createImage(GlobalConfig.LOGIN));
         helpFile.add(startFile);
         bjFile.remove(activate);
     }

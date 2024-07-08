@@ -13,6 +13,7 @@ public interface GlobalConfig {
     String SIMPLE_ICON_IMAGE = ROOT_PATH+"icon/simple.png";  // 头像
     String NOT_SIMPLE_ICON_IMAGE = ROOT_PATH+"icon/123.jpg";  // 头像
     String LOGIN = ROOT_PATH+"icon/login.jpg";  // 头像
+    String BACKGROUND_IMAGE = ROOT_PATH+"icon/bg.jpg";  // 背景图片
 
     String PHOTO_PATH = "res/photo";  //截图
     String FILE_LIST = "res/fileList";  //播放列表

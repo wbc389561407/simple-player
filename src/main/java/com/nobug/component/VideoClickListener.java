@@ -2,7 +2,6 @@ package com.nobug.component;
 
 
 import com.nobug.PlayerMain;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

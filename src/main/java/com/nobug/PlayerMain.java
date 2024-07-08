@@ -27,9 +27,10 @@ import java.util.Map;
 
 public class PlayerMain {
 
+    // 主程序运行窗体
     public static Window frame;
     // 是否播放
-    public static boolean flag = true;
+    public static boolean flag = false;
 
     public static void main(String[] args) {
 
@@ -41,11 +42,9 @@ public class PlayerMain {
             @Override
             public void run() {
                 try {
+                    //初始化 窗口
                     frame = new Window();
-                    frame.setVisible(true);
-
-                    WSwingWorker wSwingWorker = new WSwingWorker();
-                    wSwingWorker.execute();
+//                    frame.setVisible(true);
 
                     //改变模式，查询是否为激活
                     String localMac = LocalMac.getLocalMac();
@@ -63,9 +62,6 @@ public class PlayerMain {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
-
 
                 } catch (Exception e) {
                     System.exit(0);
@@ -107,6 +103,7 @@ public class PlayerMain {
             wSwingWorker.execute();
         }
         frame.getMediaPlayer().play();
+        Window.getPlayerComponent().setVisible(true);
     }
 
     // 实现暂停按钮的方法
@@ -118,6 +115,7 @@ public class PlayerMain {
     public static void stop() {
         flag = false;
         frame.getMediaPlayer().stop();
+        Window.getPlayerComponent().setVisible(false);
     }
 
     // 实现点击进度条跳转的方法
