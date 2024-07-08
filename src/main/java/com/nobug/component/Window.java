@@ -175,7 +175,7 @@ public class Window extends JFrame{
 
         //添加声音控制块
         slider = new JSlider();
-        slider.setValue(0);
+        slider.setValue(50);
         slider.setMaximum(100);
         slider.addChangeListener(new ChangeListener() {
 
